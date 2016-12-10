@@ -1,14 +1,14 @@
 var certbotWrapper = require('./index')
 
-var certbot = certbotWrapper('certbot')
+var certbot = certbotWrapper('letsencrypt')
 
 var options = {
   args: {
     staging: true,
     standalone: true,
-    domains: ['faketest.static.land'],
+    domains: [process.argv[2]],
     agreeTos: true,
-    email: 'hi@static.land',
+    email: 'sethvincent@gmail.com',
     text: true
   }
 }

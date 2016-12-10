@@ -1,5 +1,5 @@
 /*
-(default) run        
+(default) run        Obtain & install a cert in your current webserver 
 certonly             Obtain cert, but do not install it (aka "auth")
 install              Install a previously obtained cert in a server
 renew                Renew previously obtained certs that are near expiry
@@ -72,9 +72,11 @@ module.exports = function certbotWrapper (config) {
     assert.equal(typeof options, 'object', 'options object is required')
     assert.equal(typeof options.args, 'object', 'options.args object is required')
 
+    console.log(command, subcommand, options)
     exists(command, function (err, ok) {
       if (err || !ok) return callback(new Error('Error: cerbot command must be installed. Find instructions at https://certbot.eff.org/'))
       var args = toFlags(options.args).join(' ')
+      console.log('args', args)
       const execOpts = xtend(options)
       delete execOpts.args
       childProcess.exec(`${cmd} ${subcommand} ${args}`, execOpts, callback)
