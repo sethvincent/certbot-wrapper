@@ -1,7 +1,7 @@
 {
   "name": "certbot-wrapper",
   "version": "0.0.0",
-  "description": "A thin Node.js wrapper around the certbot command-line tool",
+  "description": "A Node.js wrapper around the certbot command-line tool",
   "main": "index.js",
   "dependencies": {
     "command-exists": "^1.0.2",

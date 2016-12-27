@@ -1,18 +1,18 @@
 var certbotWrapper = require('./index')
 
-var certbot = certbotWrapper('certbot')
+var certbot = certbotWrapper({
+  command: '/path/to/certbot/command'
+})
 
-var options = {
-  args: {
-    staging: true,
-    standalone: true,
-    domains: ['faketest.static.land'],
-    agreeTos: true,
-    email: 'hi@static.land',
-    text: true
-  }
+var args = {
+  staging: true,
+  standalone: true,
+  domains: ['faketest.static.land'],
+  agreeTos: true,
+  email: 'hi@static.land',
+  text: true
 }
 
-certbot.certonly(options, function (err, stdout, stderr) {
+certbot.certonly(args, function (err, stdout, stderr) {
   console.log(err, stdout, stderr)
 })

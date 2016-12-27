@@ -23,7 +23,7 @@ module.exports = function certbotWrapper (config) {
   }
 
   config = config || {}
-  const cmd = config.cmd || 'certbot'
+  const cmd = config.command || 'certbot'
 
   run.run = run
   run.certonly = run.certOnly = certonly
@@ -35,49 +35,51 @@ module.exports = function certbotWrapper (config) {
   run.plugins = plugins
   return run
 
-  function run (options, callback) {
-    exec(cmd, 'run', options, callback)
+  function run (args, options, callback) {
+    exec(cmd, 'run', args, options, callback)
   }
 
-  function certonly (options, callback) {
-    exec(cmd, 'certonly', options, callback)
+  function certonly (args, options, callback) {
+    exec(cmd, 'certonly', args, options, callback)
   }
 
-  function install (options, callback) {
-    exec(cmd, 'install', options, callback)
+  function install (args, options, callback) {
+    exec(cmd, 'install', args, options, callback)
   }
 
-  function renew (options, callback) {
-    exec(cmd, 'renew', options, callback)
+  function renew (args, options, callback) {
+    exec(cmd, 'renew', args, options, callback)
   }
 
-  function revoke (options, callback) {
-    exec(cmd, 'revoke', options, callback)
+  function revoke (args, options, callback) {
+    exec(cmd, 'revoke', args, options, callback)
   }
 
-  function register (options, callback) {
-    exec(cmd, 'register', options, callback)
+  function register (args, options, callback) {
+    exec(cmd, 'register', args, options, callback)
   }
 
-  function config_changes (options, callback) {
-    exec(cmd, 'config_changes', options, callback)
+  function config_changes (args, options, callback) {
+    exec(cmd, 'config_changes', args, options, callback)
   }
 
-  function plugins (options, callback) {
-    exec(cmd, 'plugins', options, callback)
+  function plugins (args, options, callback) {
+    exec(cmd, 'plugins', args, options, callback)
   }
 
-  function exec (command, subcommand, options, callback) {
+  function exec (command, subcommand, args, options, callback) {
     assert.equal(typeof subcommand, 'string', 'subcommand string is required')
-    assert.equal(typeof options, 'object', 'options object is required')
-    assert.equal(typeof options.args, 'object', 'options.args object is required')
+    assert.equal(typeof args, 'object', 'args object is required')
+
+    if (typeof options === 'function') {
+      callback = options
+      options = {}
+    }
 
     exists(command, function (err, ok) {
       if (err || !ok) return callback(new Error('Error: cerbot command must be installed. Find instructions at https://certbot.eff.org/'))
-      var args = toFlags(options.args).join(' ')
-      const execOpts = xtend(options)
-      delete execOpts.args
-      childProcess.exec(`${cmd} ${subcommand} ${args}`, execOpts, callback)
+      args = toFlags(args).join(' ')
+      childProcess.exec(`${cmd} ${subcommand} ${args}`, options, callback)
     })
   }
 }
