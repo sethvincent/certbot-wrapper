@@ -1,5 +1,5 @@
 /*
-(default) run        
+(default) run        Obtain & install a cert in your current webserver 
 certonly             Obtain cert, but do not install it (aka "auth")
 install              Install a previously obtained cert in a server
 renew                Renew previously obtained certs that are near expiry
